@@ -97,7 +97,7 @@ body.lift .lb{height:0}
 #gate{position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:60fr 40fr;background:var(--night);transition:opacity 1s var(--cine),visibility 0s linear 1s}
 #gate.open{opacity:0;visibility:hidden}
 .gate-photo{position:relative;overflow:hidden;background:var(--olive)}
-.gate-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;transform:scale(1.02);transition:transform 1.4s var(--cine)}
+.gate-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 26%;transform:scale(1.02);transition:transform 1.4s var(--cine)}
 #gate.open .gate-photo img{transform:scale(1.1)}
 .gate-photo:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(27,30,20,.88) 0%,rgba(27,30,20,.45) 30%,rgba(27,30,20,0) 60%)}
 .gate-caption{position:absolute;z-index:2;left:clamp(24px,6vw,90px);right:clamp(24px,6vw,90px);bottom:clamp(36px,8vh,90px);color:#fff}
@@ -143,7 +143,7 @@ body.lift #nav{opacity:1;transform:none;transition-delay:.9s}
 
 /* ── hero ─────────────────────────────────────────────────── */
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:var(--olive-deep);color:#fff;display:flex;align-items:flex-end}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;animation:kenburns 28s ease-in-out infinite alternate}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 18%;animation:kenburns 28s ease-in-out infinite alternate}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.1) translate(-1.2%,1.2%)}}
 .hero-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(27,30,20,.55) 0%,rgba(27,30,20,0) 26%),linear-gradient(to top,rgba(27,30,20,.9) 0%,rgba(27,30,20,.45) 38%,rgba(27,30,20,.05) 70%)}
 .hero-verse{position:absolute;top:calc(env(safe-area-inset-top,0px) + 74px);left:24px;right:24px;z-index:2;text-align:center;color:rgba(255,255,255,.92);font:italic 400 clamp(16px,1.6vw,21px)/1.5 var(--display);opacity:0;transform:translateY(-8px)}
@@ -282,8 +282,9 @@ body.lift #nav{opacity:1;transform:none;transition-delay:.9s}
 .done{display:none;max-width:640px;margin:32px auto 0;background:rgba(255,252,244,.9);border:1px solid var(--line);padding:clamp(32px,5vw,56px);text-align:center}
 .done h3{font-size:clamp(30px,4vw,44px);margin:14px 0 10px}
 .done p{font:300 17px/1.6 var(--sans)}
-.passbox{margin:26px auto 6px;background:#fffdf8;border:1px solid var(--line);padding:22px 20px;max-width:320px}
-.passbox .lab{font:500 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--walnut);margin-bottom:14px}
+.passbox{margin:26px auto 6px;background:#fffdf8;border:1px solid var(--line);padding:24px 22px;max-width:360px}
+.pass-head{font:italic 500 22px/1.3 var(--display);color:var(--olive);margin:0 0 8px}
+.pass-sub{font:300 13.5px/1.65 var(--sans);color:var(--ink);margin:0 0 16px}
 .pass-qr{display:flex;justify-content:center}
 .pass-qr svg,.pass-qr img{width:190px;height:190px}
 .pass-note{margin-top:12px;font:300 12.5px/1.6 var(--sans);color:var(--mute)}
@@ -594,9 +595,10 @@ body.review #gate{top:38px}
       <h3 id="doneTitle">We can't wait to celebrate with you</h3>
       <p id="doneMsg">Your RSVP has been received. A confirmation is on its way to your inbox.</p>
       <div class="passbox" id="passbox" hidden>
-        <p class="lab">Your personal wedding-day pass</p>
+        <p class="pass-head">Your RSVP is confirmed!</p>
+        <p class="pass-sub">We can&rsquo;t wait to celebrate with you. Scan your personalized QR code on the wedding day to capture or upload your favorite photos and share those special moments with us.</p>
         <div class="pass-qr" id="passQr" aria-label="Your personal QR code"></div>
-        <p class="pass-note">Save a screenshot and bring it on the day — scanning it opens your private page for sharing the photos and videos you capture at the wedding.</p>
+        <p class="pass-note" id="passNote">Save a screenshot or check your email — this same code is yours alone and stays the same every time you return.</p>
       </div>
       <button type="button" class="edit" id="editRsvp">Change my RSVP</button>
       <div class="qbox" id="qbox">
@@ -794,7 +796,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       action: 'rsvp',
       name: $('#fName').value.trim(), nickname: $('#fNick').value.trim(), email: $('#fEmail').value.trim(), phone: $('#fPhone').value.trim(),
       attending: (form.querySelector('input[name=attending]:checked') || {}).value || '',
-      guests: 1, diet: $('#fDiet').value.trim(), message: $('#fMsg').value.trim(),
+      guestId: guestIdFor($('#fEmail').value), guests: 1, diet: $('#fDiet').value.trim(), message: $('#fMsg').value.trim(),
       source: 'website', submittedAt: new Date().toISOString()
     };
     if (data.name.length < 2) return fail('Please enter your full name.', '#fName');
@@ -808,7 +810,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     const st = result.status;
     if (st === 'ok' || st === 'updated') {
       const first = data.nickname || data.name.split(/\s+/)[0];
-      const state = { name: data.name, nickname: data.nickname, email: data.email, attending: data.attending, guestId: result.guestId || null, at: Date.now() };
+      const state = { name: data.name, nickname: data.nickname, email: data.email, attending: data.attending, guestId: result.guestId || data.guestId, at: Date.now() };
       try { localStorage.setItem('km_rsvp_state', JSON.stringify(state)); } catch (err) {}
       renderPass(state);
       if (data.attending === 'yes') {
@@ -827,15 +829,27 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   });
   $('#editRsvp').addEventListener('click', () => { $('#rsvp').classList.remove('sent'); $('#rsvpForm').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 
-  /* ── personalised, stable QR pass (same code every visit) ── */
+  /* ── personalised QR pass: appears the instant a guest accepts, and the code is
+        derived from their email so it is IDENTICAL on every visit and device ── */
+  function guestIdFor(email) {
+    const e = String(email || '').toLowerCase().trim();
+    let h = 0x811c9dc5, h2 = 0x1505;
+    for (const c of e) { h ^= c.charCodeAt(0); h = Math.imul(h, 0x01000193) >>> 0; h2 = (Math.imul(h2, 33) ^ c.charCodeAt(0)) >>> 0; }
+    return (h.toString(36) + h2.toString(36)).slice(0, 10);
+  }
   function renderPass(state) {
-    const box = $('#passbox');
-    if (!state || state.attending !== 'yes') { box.hidden = true; return; }
-    const target = state.guestId && SITE.SCRIPT_URL ? `${SITE.SCRIPT_URL}?page=upload&g=${encodeURIComponent(state.guestId)}` : null;
-    if (!target) { box.hidden = true; return; }
+    const box = $('#passbox'), qrEl = $('#passQr'), note = $('#passNote');
+    if (!state || state.attending !== 'yes' || !state.email) { box.hidden = true; return; }   // declines never see a pass
+    const id = state.guestId || guestIdFor(state.email);
+    const target = SITE.SCRIPT_URL
+      ? `${SITE.SCRIPT_URL}?page=upload&g=${encodeURIComponent(id)}`
+      : `MARLO & KIARA · WEDDING PASS · ${(state.name || 'GUEST').toUpperCase()} · ${id.toUpperCase()}`;
     try {
       const q = qrcode(0, 'M'); q.addData(target); q.make();
-      $('#passQr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+      qrEl.innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+      note.textContent = SITE.SCRIPT_URL
+        ? 'Save a screenshot or check your email — this code is yours alone, stays the same every time you return, and opens your private photo-upload page at the wedding.'
+        : 'This code is yours alone and stays the same every visit. Once the RSVP system is connected it will open your private photo-upload page at the wedding.';
       box.hidden = false;
     } catch (e) { box.hidden = true; }
   }
