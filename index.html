@@ -23,10 +23,10 @@ const SITE = {
   bride:     "Kiara",
   groom:     "Marlo",
 
-  dateISO:   "2026-11-26T16:30:00+08:00",   // drives the countdown (Manila time)
+  dateISO:   "2026-11-26T16:00:00+08:00",   // drives the countdown (Manila time)
   dateLong:  "Thursday, November 26, 2026",
   dateShort: "November 26, 2026",
-  timeText:  "4:30 in the afternoon",
+  timeText:  "4:00 in the afternoon",
 
   venueName: "LOLA Cafe – Mabini",
   venueCity: "A. Mabini St., San Juan, Metro Manila",
@@ -150,10 +150,10 @@ body.lift #nav{opacity:1;transform:none;transition-delay:.9s}
 .hero-verse span{font:400 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold-soft)}
 .hero.play .hero-verse{animation:fadeUp 1s var(--ease) .15s forwards}
 .hero-card{position:relative;z-index:2;width:min(1080px,calc(100% - 48px));margin:0 auto;padding-bottom:clamp(72px,12vh,140px)}
-.hero .eyebrow{font:400 13px/1.4 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);opacity:0;transform:translateY(10px)}
+.hero .eyebrow{font:400 clamp(14px,1.2vw,16px)/1.5 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-soft);opacity:0;transform:translateY(10px)}
 .hero-names{font-size:clamp(56px,9vw,130px);line-height:1;margin:14px 0 20px;letter-spacing:-.01em}
 .hero-names .ltr{display:inline-block;opacity:0;transform:translateY(30px) rotate(2deg);white-space:pre}
-.hero-meta{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font:300 15px/1.4 var(--sans);letter-spacing:.06em;color:rgba(255,255,255,.88);opacity:0;transform:translateY(10px)}
+.hero-meta{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font:300 clamp(16px,1.3vw,18px)/1.5 var(--sans);letter-spacing:.06em;color:rgba(255,255,255,.88);opacity:0;transform:translateY(10px)}
 .hero-meta i{width:1px;height:18px;background:var(--gold)}
 .hero.play .eyebrow{animation:fadeUp .9s var(--ease) .25s forwards}
 .hero.play .hero-names .ltr{animation:rise .9s var(--ease) forwards;animation-delay:calc(.45s + var(--i)*.045s)}
