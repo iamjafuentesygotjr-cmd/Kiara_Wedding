@@ -131,10 +131,10 @@ body.lift .lb{height:0}
 }
 
 /* ── splash: realistic envelope ───────────────────────────── */
-#splash{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:32px;background:radial-gradient(120% 100% at 50% 32%,#f1f0ed,#d8d7d3 60%,#c3c2be);transition:opacity .9s var(--cine),visibility 0s linear .9s}
+#splash{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:24px;overflow:auto;background:radial-gradient(120% 100% at 50% 32%,#f1f0ed,#d8d7d3 60%,#c3c2be);transition:opacity .9s var(--cine),visibility 0s linear .9s}
 #splash.open{opacity:0;visibility:hidden}
 .sp-inner{display:grid;place-items:center;gap:30px;opacity:0;transform:translateY(10px);animation:fadeUp .8s var(--ease) .15s forwards}
-.envelope{position:relative;width:min(520px,88vw);aspect-ratio:10/7;border:0;background:none;padding:0;cursor:pointer;perspective:1500px;-webkit-tap-highlight-color:transparent}
+.envelope{position:relative;width:min(520px,88vw,76vh);aspect-ratio:10/7;border:0;background:none;padding:0;cursor:pointer;perspective:1500px;-webkit-tap-highlight-color:transparent}
 .envelope:focus-visible{outline:2px solid var(--gold);outline-offset:10px}
 .env-shadow{position:absolute;left:3%;right:3%;bottom:-7%;height:16%;background:radial-gradient(50% 50% at 50% 50%,rgba(22,24,15,.5),transparent 70%);filter:blur(10px)}
 .env-back{position:absolute;inset:0;border-radius:7px;background:linear-gradient(160deg,#666951,#585c46 75%)}
@@ -269,7 +269,7 @@ body.lift #nav{opacity:1;transform:none;transition-delay:.9s}
 .gallery{background:transparent}
 .gal-verse{font:italic 500 clamp(19px,2.1vw,25px)/1.45 var(--display);color:var(--walnut);max-width:640px;margin:6px auto 14px}
 .gal-word{font:300 15.5px/1.75 var(--sans);color:var(--ink);max-width:660px;margin:0 auto}
-.cflow{position:relative;margin-top:38px;height:clamp(340px,52vw,480px)}
+.cflow{position:relative;margin-top:38px;height:clamp(340px,52vw,480px);overflow:hidden}
 .cf-track{position:absolute;inset:0}
 .cf-card{position:absolute;left:50%;top:50%;height:100%;background:#fffdf8;padding:10px 10px 14px;box-shadow:0 14px 40px rgba(42,28,17,.3);transform:translate(-50%,-50%) scale(.4);opacity:0;transition:transform .9s var(--ease),opacity .9s var(--ease);pointer-events:none;cursor:pointer}
 .cf-card img{height:calc(100% - 24px);width:auto;max-width:min(74vw,560px);object-fit:contain;display:block;background:var(--linen)}
@@ -379,6 +379,15 @@ body.review #gate{top:38px}
 
 @media (max-width:820px){
   section{padding:64px 0}
+  #nav{background:rgba(250,247,241,.92);color:var(--ink);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(0,0,0,.05)}
+  .hero{height:auto;min-height:0;display:block;padding-top:calc(env(safe-area-inset-top,0px) + 46px)}
+  .hero-img{position:relative;inset:auto;width:100%;height:auto;animation:none;object-fit:contain}
+  .hero-veil{display:none}
+  .hero-verse{position:static;margin:20px 22px 0;transform:none}
+  .hero-card{width:auto;margin:0;padding:12px 22px 40px}
+  .hero-names{font-size:clamp(42px,12vw,62px)}
+  .scrolldn{display:none}
+  .curtain{aspect-ratio:2/3}
   .story-grid{grid-template-columns:1fr}
   .story-photo{max-width:380px;margin:0 auto 26px}
   .count-row{max-width:none}
@@ -462,7 +471,7 @@ body.review #gate{top:38px}
   <div class="hero-card">
     <p class="eyebrow" id="heroEyebrow">You are invited to the wedding of</p>
     <h1 class="hero-names"><span data-bind="names">Marlo &amp; Kiara</span></h1>
-    <div class="hero-meta"><span data-bind="dateLong">Thursday, November 26, 2026</span><i></i><span data-bind="venueName">LOLA Modern Filipino Bistro</span></div>
+    <div class="hero-meta"><span data-bind="dateLong">Thursday, November 26, 2026</span><span>&middot; 4:00 PM</span><i></i><span data-bind="venueName">LOLA Cafe – Mabini</span></div>
   </div>
   <a class="scrolldn" href="#story" aria-label="Scroll down"><span></span></a>
 </header>
@@ -480,8 +489,8 @@ body.review #gate{top:38px}
     <div class="rv">
       <p class="greet" id="greet"></p>
       <p class="kicker">Together with our families</p>
-      <h2>We&rsquo;re getting married,<br>and we&rsquo;d love to have you there.</h2>
-      <p class="lede">Some of life&rsquo;s most meaningful moments are made even more special by the people we share them with. As we begin this new chapter together, it would mean so much to celebrate it with you.</p>
+      <h2>With grateful hearts, we are thrilled to announce our wedding day!</h2>
+      <p class="lede">God has written a beautiful story for us, and we can&rsquo;t wait to share this chapter with you.</p>
       <dl>
         <dt>When</dt><dd><span data-bind="dateLong">Thursday, November 26, 2026</span> · <span data-bind="timeText">5:00 in the evening</span></dd>
         <dt>Where</dt><dd>LOLA Cafe, A. Mabini St., San Juan, Metro Manila</dd>
@@ -509,9 +518,9 @@ body.review #gate{top:38px}
     <h2 class="title">Schedule</h2>
     <div class="rule"></div>
     <div class="timeline">
-      <div class="tl stag"><time>4:00 PM</time><div><h3>Registration</h3><p>Arrive, sign in, and settle into your seat.</p></div></div>
-      <div class="tl stag"><time>4:30 PM</time><div><h3>Ceremony proper</h3><p>Kindly be seated by 4:20 PM.</p></div></div>
-      <div class="tl stag"><time>6:00 PM</time><div><h3>Reception</h3><p>Dinner, toasts, and dancing to follow.</p></div></div>
+      <div class="tl stag"><time>4:00 PM</time><div><h3>Registration</h3><p>Arrive, sign in, settle into your seat and please take a moment to pray for us.</p></div></div>
+      <div class="tl stag"><time>4:30 PM</time><div><h3>Ceremony proper</h3><p>Please be seated by 4:15 PM. We ask that you silence your phones and refrain from using them to fully appreciate the sacredness of this moment.</p></div></div>
+      <div class="tl stag"><time>6:00 PM</time><div><h3>Reception</h3><p>Dinner and toast.</p></div></div>
     </div>
     <div class="venue-box stag">
       <div><strong data-bind="venueName">LOLA Cafe – Mabini</strong><span data-bind="venueCity">A. Mabini St., San Juan, Metro Manila</span></div>
@@ -788,30 +797,36 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   /* ── splash: try true autoplay first; if the browser blocks it, the tap opens + plays ── */
   const splash = $('#splash');
   let entered = false;
-  function enter(fromTap) {
+  function enter() {
     if (entered) return; entered = true;
     splash.classList.add('open'); splash.setAttribute('aria-hidden', 'true');
     reveal();
-    if (fromTap) {                                     // the tap is the gesture → sound is guaranteed
-      setMuted(false);
-      if (engine === 'mp3' && audio) { audio.muted = false; if (audio.paused) audio.play().catch(() => {}); }
-      else if (engine === 'yt' && yt && ytReady) { yt.unMute(); if (yt.getPlayerState() !== YT.PlayerState.PLAYING) yt.playVideo(); }
-      else startMusic();
-      setTimeout(() => { if (!isPlaying()) { mBtn.classList.add('muted'); hint(true); setTimeout(() => hint(false), 7000); } }, 2500);
-    }
     setTimeout(() => splash.remove(), 1000);
+  }
+  /* one function, called SYNCHRONOUSLY inside the tap, guarantees audible playback.
+     There is only ever one <audio> element / one YouTube player, so nothing can double up. */
+  function soundOnNow() {
+    setMuted(false);
+    if (audio) { engine = 'mp3'; audio.muted = false; if (audio.paused) audio.play().catch(() => {}); }
+    else if (yt && ytReady) { engine = 'yt'; yt.unMute(); if (yt.getPlayerState() !== YT.PlayerState.PLAYING) yt.playVideo(); }
+    else wantPlay = true;                              // player still loading → it plays the moment it's ready
+    setTimeout(() => { if (!isPlaying() || muted) { mBtn.classList.add('muted'); hint(true); setTimeout(() => hint(false), 7000); } }, 2500);
+  }
+  function silentPreroll() {                           // muted playback is always allowed → the song is already
+    if (entered || isPlaying()) return;                // rolling behind the splash, so the tap only un-mutes it
+    setMuted(true);
+    if (audio) { engine = 'mp3'; audio.muted = true; audio.play().catch(() => {}); }
+    else if (yt && ytReady) { engine = 'yt'; yt.mute(); yt.playVideo(); }
+    else wantPlay = true;
   }
   if (SITE.musicMP3 || SITE.musicYouTubeId) {
     startMusic();                                      // attempt full autoplay immediately
-    const probe = setInterval(() => { if (isPlaying() && !muted) { clearInterval(probe); openEnvelope(false); } }, 200);
-    setTimeout(() => clearInterval(probe), 2500);      // blocked → the splash stays until tapped
-    setTimeout(() => {                                 // …but pre-roll it silently so the tap is instant
-      if (entered || isPlaying()) return;
-      setMuted(true);
-      if (audio) { engine = 'mp3'; audio.muted = true; audio.play().catch(() => {}); }
-      else if (yt && ytReady) { engine = 'yt'; yt.mute(); yt.playVideo(); }
-      else wantPlay = true;
-    }, 2600);
+    const probe = setInterval(() => {
+      if (entered) { clearInterval(probe); return; }
+      if (isPlaying() && !muted) { clearInterval(probe); openEnvelope(false); }         // autoplay allowed → self-open
+      else if (!isPlaying() && ytReady) silentPreroll();                                // blocked → pre-roll silently ASAP
+    }, 250);
+    setTimeout(() => { clearInterval(probe); silentPreroll(); }, 3000);
   } else {
     setTimeout(() => openEnvelope(false), reduced ? 0 : 600); // no music configured → open by itself
   }
@@ -819,8 +834,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   let opening = false;
   function openEnvelope(fromTap) {
     if (opening || entered) return; opening = true;
+    if (fromTap) soundOnNow();                         // FIRST, inside the tap itself — before any animation
     env.classList.add('opening');
-    setTimeout(() => enter(fromTap), reduced ? 0 : 1150);
+    setTimeout(enter, reduced ? 0 : 1150);             // the envelope opens over music that's already playing
   }
   env.addEventListener('click', e => { e.stopPropagation(); openEnvelope(true); });
   splash.addEventListener('click', () => openEnvelope(true));
