@@ -770,7 +770,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     if (audio && engine !== 'yt') {
       engine = 'mp3';
       audio.muted = muted;
-      audio.play().then(() => { ready(); if (!muted) { mBtn.classList.remove('muted'); hint(false); } }).catch(() => { audio = null; engine = null; startMusic(); });
+      audio.play().then(() => { ready(); if (!muted) { mBtn.classList.remove('muted'); hint(false); } }).catch(() => { /* autoplay blocked — KEEP the file; the envelope tap will start it */ });
       return;
     }
     if (yt && ytReady) { engine = 'yt'; muted ? yt.mute() : yt.unMute(); yt.playVideo(); }
