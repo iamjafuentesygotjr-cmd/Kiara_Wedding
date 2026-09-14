@@ -23,10 +23,21 @@ const SITE = {
   bride:     "Kiara",
   groom:     "Marlo",
 
-  dateISO:   "2026-11-26T16:00:00+08:00",   // drives the countdown (Manila time)
+  dateISO:   "2026-11-26T17:30:00+08:00",   // drives the countdown (Manila time)
   dateLong:  "Thursday, November 26, 2026",
   dateShort: "November 26, 2026",
-  timeText:  "4:00 in the afternoon",
+  timeText:  "5:30 PM",
+
+  /* ── Day-of details ──────────────────────────────────────────────────
+     arriveBy is the single source of truth for the guest arrival time:
+     it fills the hero, the "When" line and the arrival notice below.
+     KEEP IN SYNC with apps-script/Code.gs → CONFIG.ARRIVE_BY, which
+     fills the same fields in the RSVP confirmation and reminder emails. */
+  arriveBy:    "5:30 PM",
+  sponsorLead: "at least 30 minutes",
+  dayOfName:   "Mr. JA",
+  dayOfPhone:  "0935 508 1996",
+  dayOfTel:    "+639355081996",          // used for the click-to-call link
 
   venueName: "LOLA Cafe – Mabini",
   venueCity: "A. Mabini St., San Juan, Metro Manila",
@@ -233,12 +244,21 @@ body.lift #nav{opacity:1;transform:none;transition-delay:.9s}
 
 /* ── schedule ─────────────────────────────────────────────── */
 .schedule{background:rgba(107,68,38,.05)}
-.timeline{position:relative;max-width:640px;margin:34px auto 0;padding-left:0}
-.tl{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:22px 0;border-top:1px solid var(--line);text-align:left}
-.tl:last-child{border-bottom:1px solid var(--line)}
-.tl time{font:500 27px/1.1 var(--display);color:var(--olive)}
-.tl h3{font-size:24px;margin-bottom:4px}
-.tl p{font:300 16px/1.6 var(--sans);color:var(--mute)}
+.notice{max-width:640px;margin:34px auto 0;text-align:left;background:rgba(255,252,244,.8);
+  border:1px solid var(--line);padding:clamp(22px,3.2vw,34px)}
+.notice .blk+.blk{margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}
+.notice .n-lbl{display:block;font:500 11px/1.5 var(--sans);letter-spacing:.24em;
+  text-transform:uppercase;color:var(--sage);margin-bottom:9px}
+.notice p{font:300 16px/1.75 var(--sans);color:var(--ink)}
+.notice .n-call{display:inline-block;margin-top:12px;font:500 23px/1.35 var(--display);
+  color:var(--olive);text-decoration:none;border-bottom:1px solid rgba(196,154,74,.55);padding-bottom:3px}
+.notice .n-call:hover{color:var(--walnut);border-bottom-color:var(--walnut)}
+.notice .n-thanks{margin-top:24px;padding-top:24px;border-top:1px solid var(--line);text-align:center;
+  font:italic 400 17px/1.7 var(--display);color:var(--walnut)}
+@media (max-width:640px){
+  .notice p{font-size:15.5px}
+  .notice .n-call{font-size:21px}
+}
 .venue-box{max-width:640px;margin:32px auto 0;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:rgba(255,252,244,.8);border:1px solid var(--line);padding:18px 22px;text-align:left}
 .venue-box strong{font:500 26px/1.2 var(--display);display:block}
 .venue-box span{font:300 15px/1.5 var(--sans);color:var(--mute)}
@@ -519,7 +539,7 @@ body.review #gate{top:38px}
   <div class="hero-card">
     <p class="eyebrow" id="heroEyebrow">You are invited to the wedding of</p>
     <h1 class="hero-names"><span data-bind="names">Marlo &amp; Kiara</span></h1>
-    <div class="hero-meta"><span data-bind="dateLong">Thursday, November 26, 2026</span><span>&middot; 4:00 PM</span><i></i><span data-bind="venueName">LOLA Cafe – Mabini</span></div>
+    <div class="hero-meta"><span data-bind="dateLong">Thursday, November 26, 2026</span><span>&middot; <span data-bind="timeText">5:30 PM</span></span><i></i><span data-bind="venueName">LOLA Cafe – Mabini</span></div>
   </div>
   <a class="scrolldn" href="#story" aria-label="Scroll down"><span></span></a>
 </header>
@@ -565,10 +585,21 @@ body.review #gate{top:38px}
     <p class="kicker">The day</p>
     <h2 class="title">Schedule</h2>
     <div class="rule"></div>
-    <div class="timeline">
-      <div class="tl stag"><time>4:00 PM</time><div><h3>Registration</h3><p>Arrive, sign in, settle into your seat and please take a moment to pray for us.</p></div></div>
-      <div class="tl stag"><time>4:30 PM</time><div><h3>Ceremony proper</h3><p>Please be seated by 4:15 PM. We ask that you silence your phones and refrain from using them to fully appreciate the sacredness of this moment.</p></div></div>
-      <div class="tl stag"><time>6:00 PM</time><div><h3>Reception</h3><p>Dinner and toast.</p></div></div>
+    <div class="notice stag">
+      <div class="blk">
+        <span class="n-lbl">For our guests</span>
+        <p>Please arrive by <strong data-bind="arriveBy">5:30 PM</strong> so we can start the program on time.</p>
+      </div>
+      <div class="blk">
+        <span class="n-lbl">For our principal &amp; secondary sponsors</span>
+        <p>We kindly request that you arrive <span data-bind="sponsorLead">at least 30 minutes</span> in advance to allow enough time for preparation and a quick program walkthrough with our coordinator.</p>
+      </div>
+      <div class="blk">
+        <span class="n-lbl">On the wedding day</span>
+        <p>For any questions or concerns, please contact:</p>
+        <a class="n-call" id="dayOfCall" href="tel:+639355081996"><span data-bind="dayOfName">Mr. JA</span> &mdash; <span data-bind="dayOfPhone">0935 508 1996</span></a>
+      </div>
+      <p class="n-thanks">Thank you so much for your cooperation in helping us have a smooth and joyful wedding celebration.</p>
     </div>
     <div class="venue-box stag">
       <div><strong data-bind="venueName">LOLA Cafe – Mabini</strong><span data-bind="venueCity">A. Mabini St., San Juan, Metro Manila</span></div>
@@ -855,9 +886,10 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   const d0 = new Date(SITE.dateISO);
   const fmt = d => d.toISOString().replace(/[-:]|\.\d{3}/g, '');
   const cal = new URL('https://calendar.google.com/calendar/render');
-  cal.search = new URLSearchParams({ action: 'TEMPLATE', text: `${SITE.names} — Wedding`, dates: `${fmt(d0)}/${fmt(new Date(d0.getTime() + 5 * 3600e3))}`, details: `Doors open at 4:30 PM. Kindly RSVP by ${SITE.rsvpBy}.`, location: `${SITE.venueName}, ${SITE.venueCity}` }).toString();
+  cal.search = new URLSearchParams({ action: 'TEMPLATE', text: `${SITE.names} — Wedding`, dates: `${fmt(d0)}/${fmt(new Date(d0.getTime() + 5 * 3600e3))}`, details: `Please arrive by ${SITE.arriveBy}. Kindly RSVP by ${SITE.rsvpBy}.`, location: `${SITE.venueName}, ${SITE.venueCity}` }).toString();
   $('#calLink').href = cal.toString();
   $('#mapLink').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(SITE.mapsQuery);
+  $('#dayOfCall').href = 'tel:' + SITE.dayOfTel;
 
   /* ── talk to the Apps Script (fire-and-forget or awaited) ── */
   async function post(payload) {
