@@ -23,18 +23,18 @@ const SITE = {
   bride:     "Kiara",
   groom:     "Marlo",
 
-  dateISO:   "2026-11-26T17:30:00+08:00",   // drives the countdown (Manila time)
+  dateISO:   "2026-11-26T16:00:00+08:00",   // drives the countdown (Manila time)
   dateLong:  "Thursday, November 26, 2026",
   dateShort: "November 26, 2026",
-  timeText:  "5:30 PM",
+  timeText:  "4:00 PM",
 
   /* ── Day-of details ──────────────────────────────────────────────────
-     arriveBy is the single source of truth for the guest arrival time:
-     it fills the hero, the "When" line and the arrival notice below.
+     arriveBy is the single source of truth for the guest arrival time —
+     it fills the arrival notice in the Schedule section. It is deliberately
+     separate from timeText above, which is the ceremony start time.
      KEEP IN SYNC with apps-script/Code.gs → CONFIG.ARRIVE_BY, which
      fills the same fields in the RSVP confirmation and reminder emails. */
-  arriveBy:    "5:30 PM",
-  sponsorLead: "at least 30 minutes",
+  arriveBy:    "4:00 PM",                // when everyone should be seated
   dayOfName:   "Mr. JA",
   dayOfPhone:  "0935 508 1996",
   dayOfTel:    "+639355081996",          // used for the click-to-call link
@@ -539,7 +539,7 @@ body.review #gate{top:38px}
   <div class="hero-card">
     <p class="eyebrow" id="heroEyebrow">You are invited to the wedding of</p>
     <h1 class="hero-names"><span data-bind="names">Marlo &amp; Kiara</span></h1>
-    <div class="hero-meta"><span data-bind="dateLong">Thursday, November 26, 2026</span><span>&middot; <span data-bind="timeText">5:30 PM</span></span><i></i><span data-bind="venueName">LOLA Cafe – Mabini</span></div>
+    <div class="hero-meta"><span data-bind="dateLong">Thursday, November 26, 2026</span><span>&middot; <span data-bind="timeText">4:00 PM</span></span><i></i><span data-bind="venueName">LOLA Cafe – Mabini</span></div>
   </div>
   <a class="scrolldn" href="#story" aria-label="Scroll down"><span></span></a>
 </header>
@@ -560,7 +560,7 @@ body.review #gate{top:38px}
       <h2>With grateful hearts, we are thrilled to announce our wedding day!</h2>
       <p class="lede">God has written a beautiful story for us, and we can&rsquo;t wait to share this chapter with you.</p>
       <dl>
-        <dt>When</dt><dd><span data-bind="dateLong">Thursday, November 26, 2026</span> · <span data-bind="timeText">5:00 in the evening</span></dd>
+        <dt>When</dt><dd><span data-bind="dateLong">Thursday, November 26, 2026</span> · <span data-bind="timeText">4:00 PM</span></dd>
         <dt>Where</dt><dd>LOLA Cafe, A. Mabini St., San Juan, Metro Manila</dd>
       </dl>
       <p class="seatline">One seat has been lovingly reserved just for you.</p>
@@ -587,12 +587,7 @@ body.review #gate{top:38px}
     <div class="rule"></div>
     <div class="notice stag">
       <div class="blk">
-        <span class="n-lbl">For our guests</span>
-        <p>Please arrive by <strong data-bind="arriveBy">5:30 PM</strong> so we can start the program on time.</p>
-      </div>
-      <div class="blk">
-        <span class="n-lbl">For our principal &amp; secondary sponsors</span>
-        <p>We kindly request that you arrive <span data-bind="sponsorLead">at least 30 minutes</span> in advance to allow enough time for preparation and a quick program walkthrough with our coordinator.</p>
+        <p>Please arrive by <strong data-bind="arriveBy">4:00 PM</strong>. We kindly ask that you arrive on time so we can begin the program as scheduled. With the holiday rush and possible traffic, please plan your travel time accordingly.</p>
       </div>
       <div class="blk">
         <span class="n-lbl">On the wedding day</span>
@@ -756,12 +751,12 @@ body.review #gate{top:38px}
       <div class="ent-grp">
         <div class="col">
           <span class="role">Candle</span>
-          <p class="nm">Yamille S. Dominguez</p>
+          <p class="nm">Jiro Jose Pascual Fong</p>
         </div>
         <div class="spine"></div>
         <div class="col">
           <span class="role">Candle</span>
-          <p class="nm">Sam C. Quisto</p>
+          <p class="nm">Yamille S. Dominguez</p>
         </div>
       </div>
 
